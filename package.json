@@ -1,0 +1,23 @@
+{
+  "name": "bc-compare",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Bigcommerce Product Compare Module",
+  "license": "MIT",
+  "jspm": {
+    "main": "js/ProductCompare",
+    "directories": {
+      "lib": "dist"
+    },
+    "dependencies": {
+      "jquery": "github:components/jquery@^2.1.4"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@4.7.16",
+      "babel-runtime": "npm:babel-runtime@4.7.16",
+      "core-js": "npm:core-js@^0.8.4",
+      "traceur": "github:jmcriffey/bower-traceur@0.0.88",
+      "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.88"
+    }
+  }
+}
