@@ -9,10 +9,8 @@ import 'jquery-revealer';
 import EventEmitter from 'asyncly/EventEmitter2';
 
 export default class ProductCompare extends EventEmitter {
-  constructor(options = {}, messages) {
+  constructor(options = {}) {
     super();
-
-    this.messages = messages;
 
     this.options = $.extend({
       scope: '[data-product-compare]',
@@ -37,9 +35,10 @@ export default class ProductCompare extends EventEmitter {
             <img src="<%= thumbnail %>"/>
             <div><%= title %></div>
           </a>
-          <button data-compare-item-remove="<%= id %>">X</button>
+          <button data-compare-item-remove="<%= id %>">&times;</button>
         </div>
       `),
+      onInit: () => {},
     }, options);
 
     this.$scope = $(this.options.scope);
@@ -47,6 +46,7 @@ export default class ProductCompare extends EventEmitter {
     this.$compareWidget = $(this.options.compare.widget);
     this.$compareItems = $(this.options.compare.items);
     this.$compareLink = $(this.options.compare.link);
+    this.id = this.options.product.id;
     this.compareRemove = this.options.compare.remove;
 
     if (sessionStorage.getItem('compare')) {
@@ -88,16 +88,18 @@ export default class ProductCompare extends EventEmitter {
 
   _initWidget() {
     for (const id of this.compareList.keys()) {
-      $(`[data-compare-id="${id}"]`).prop('checked', true);
+      $(`[data-${this.id}="${id}"]`).prop('checked', true);
 
       this._populateWidget(id);
+
+      this._updateWidgetState();
     }
   }
 
 
   /**
    *
-   * Adds an items to the widget
+   * Adds an item to the widget
    *
    * @param {id} number The ID of the item it add
    *
@@ -119,7 +121,7 @@ export default class ProductCompare extends EventEmitter {
 
   _toggleItem(checkbox) {
     const $checkbox = $(checkbox);
-    const id = parseInt($checkbox.data(this.options.product.id), 10);
+    const id = parseInt($checkbox.data(this.id), 10);
     const productData = {
       id: id,
       title: $checkbox.data(this.options.product.title),
@@ -201,6 +203,8 @@ export default class ProductCompare extends EventEmitter {
   removeAll() {
     this.compareList.clear();
 
+    this.$checkbox.prop('checked', false);
+
     // TODO revealer?
     this.$compareItems.html('');
 
@@ -230,5 +234,19 @@ export default class ProductCompare extends EventEmitter {
     sessionStorage.setItem('compare', JSON.stringify([...this.compareList]));
 
     this.emit('updated');
+  }
+
+
+  /**
+   *
+   * Over-ride EventEmitter's "on" method so that events can be fired immediately after they're bound
+   *
+   */
+
+  on(eventName, handler, fireOnBind = false) {
+    super.on(eventName, handler);
+    if (fireOnBind) {
+      this.emit(eventName);
+    }
   }
 }
