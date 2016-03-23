@@ -194,6 +194,22 @@ export default class ProductCompare extends EventEmitter {
 
   /**
    *
+   * Public method to clear the list and widget items
+   *
+   */
+
+  removeAll() {
+    this.compareList.clear();
+
+    // TODO revealer?
+    this.$compareItems.html('');
+
+    this._updateWidgetState();
+  }
+
+
+  /**
+   *
    * Updates the compare widget state
    *
    */
