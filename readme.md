@@ -9,11 +9,28 @@ jspm install --save bc-compare=bitbucket:pixelunion/bc-compare
 ```
 
 ## Usage
-This module is made up of 2 components. The compare checkbox and the compare widget.
+This module is made up of 2 template components. The compare checkbox and the compare widget.
 
 ### Checkbox
 
 Add a checkbox to your product grid items with the appropriate `data` attributes. No form necessary!
+
+```
+<input
+  type="checkbox"
+  data-compare-checkbox
+  data-compare-id="{{id}}"
+  data-compare-title="{{name}}"
+  data-compare-url="{{url}}"
+  data-compare-thumbnail="{{getImage image 'thumb' (cdn default_image)}}">
+```
+Ideally the thumb that you are using will be the same size as the one that has already been loaded into the page.
+
+
+### Widget
+
+
+
 
 ## Options
 
