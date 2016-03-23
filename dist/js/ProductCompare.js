@@ -48,7 +48,13 @@ export default class ProductCompare extends EventEmitter {
     this.$compareItems = $(this.options.compare.items);
     this.$compareLink = $(this.options.compare.link);
     this.compareRemove = this.options.compare.remove;
-    this.compareList = new Map();
+
+    if (sessionStorage.getItem('compare')) {
+      this.compareList = new Map(JSON.parse(sessionStorage.getItem('compare')));
+      this._initWidget();
+    } else {
+      this.compareList = new Map();
+    }
 
     this._bindEvents();
   }
@@ -71,6 +77,35 @@ export default class ProductCompare extends EventEmitter {
       const id = parseInt($(event.target).attr(this.compareRemove), 10);
       this._removeItem(id);
     });
+  }
+
+
+  /**
+   *
+   * Sets the inital state of widget if loading from sessionStorage
+   *
+   */
+
+  _initWidget() {
+    for (const id of this.compareList.keys()) {
+      $(`[data-compare-id="${id}"]`).prop('checked', true);
+
+      this._populateWidget(id);
+    }
+  }
+
+
+  /**
+   *
+   * Adds an items to the widget
+   *
+   * @param {id} number The ID of the item it add
+   *
+   */
+
+  _populateWidget(id) {
+    // TODO change this to revealer
+    this.$compareItems.append(this.options.itemTemplate(this.compareList.get(id)));
   }
 
 
@@ -124,8 +159,7 @@ export default class ProductCompare extends EventEmitter {
 
     this.compareList.set(id, productData);
 
-    // TODO change this to revealer
-    this.$compareItems.append(this.options.itemTemplate(this.compareList.get(id)));
+    this._populateWidget(id);
 
     this._updateWidgetState();
 
@@ -177,7 +211,7 @@ export default class ProductCompare extends EventEmitter {
     this.$compareLink.attr('href', `${this.$compareLink.data('compare-link')}/${[...this.compareList.keys()].join('/')}`);
 
     // Save the compare data for later
-    //sessionStorage.setItem('compare', JSON.stringify([...this.compareList]));
+    sessionStorage.setItem('compare', JSON.stringify([...this.compareList]));
 
     this.emit('updated');
   }
