@@ -14,49 +14,45 @@ export default class ProductCompare extends EventEmitter {
 
     this.options = $.extend({
       scope: '[data-product-compare]',
-      checkbox: '[data-compare-checkbox]',
-      product: {
-        id: 'compare-id',
-        title: 'compare-title',
-        url: 'compare-url',
-        thumbnail: 'compare-thumbnail',
-      },
-      compare: {
-        widget: '[data-compare-widget]',
-        items: '[data-compare-items]',
-        item: 'data-compare-item',
-        remove: 'data-compare-item-remove',
-        link: '[data-compare-link]',
-      },
       maxItems: 4,
       itemTemplate: _.template(`
-        <div data-compare-item>
+        <div class="compare-item" data-compare-item>
           <a href="<%= url %>">
-            <img src="<%= thumbnail %>"/>
-            <div><%= title %></div>
+            <img class="compare-item-thumbnail" src="<%= thumbnail %>"/>
+            <div class="compare-item-title"><%= title %></div>
           </a>
-          <button data-compare-item-remove="<%= id %>">&times;</button>
+          <button class="compare-item-remove" data-compare-item-remove="<%= id %>">&times;</button>
         </div>
       `),
-      onInit: () => {},
     }, options);
 
     this.$scope = $(this.options.scope);
-    this.$checkbox = $(this.options.checkbox);
-    this.$compareWidget = $(this.options.compare.widget);
-    this.$compareItems = $(this.options.compare.items);
-    this.$compareLink = $(this.options.compare.link);
-    this.id = this.options.product.id;
-    this.compareRemove = this.options.compare.remove;
+    this.$compareItems = $('[data-compare-items]');
+    this.$compareLink = $('[data-compare-link]');
 
+    this.checkbox = '[data-compare-checkbox]';
+    this.compareRemove = 'data-compare-item-remove';
+
+    this._init();
+    this._bindEvents();
+  }
+
+
+  /**
+   *
+   * Set up the compare list Map
+   *
+   */
+
+  _init() {
     if (sessionStorage.getItem('compare')) {
       this.compareList = new Map(JSON.parse(sessionStorage.getItem('compare')));
+      this.initialState = true;
       this._initWidget();
     } else {
+      this.initialState = false;
       this.compareList = new Map();
     }
-
-    this._bindEvents();
   }
 
 
@@ -67,7 +63,7 @@ export default class ProductCompare extends EventEmitter {
    */
 
   _bindEvents() {
-    this.$scope.on('change', this.options.checkbox, (event) => {
+    this.$scope.on('change', this.checkbox, (event) => {
       this._toggleItem(event.target);
     });
 
@@ -88,7 +84,7 @@ export default class ProductCompare extends EventEmitter {
 
   _initWidget() {
     for (const id of this.compareList.keys()) {
-      $(`[data-${this.id}="${id}"]`).prop('checked', true);
+      $(`[data-compare-id="${id}"]`).prop('checked', true);
 
       this._populateWidget(id);
 
@@ -121,17 +117,16 @@ export default class ProductCompare extends EventEmitter {
 
   _toggleItem(checkbox) {
     const $checkbox = $(checkbox);
-    const id = parseInt($checkbox.data(this.id), 10);
+    const id = parseInt($checkbox.data('compare-id'), 10);
     const productData = {
       id: id,
-      title: $checkbox.data(this.options.product.title),
-      url: $checkbox.data(this.options.product.url),
-      thumbnail: $checkbox.data(this.options.product.thumbnail),
+      title: $checkbox.data('compare-title'),
+      url: $checkbox.data('compare-url'),
+      thumbnail: $checkbox.data('compare-thumbnail'),
     };
 
     // Add / remove item from compare list
     if (checkbox.checked) {
-      //this.compareList.set(id, productData);
       this._addItem(id, productData);
 
       // Generate an array of the compare IDs so we can target the first item
@@ -153,11 +148,12 @@ export default class ProductCompare extends EventEmitter {
    * Adds an item to the compare list
    *
    * @param {number} id The ID of the item to add
+   * @param {object} productData Object containing the data of a compare item
    *
    */
 
   _addItem(id, productData) {
-    this.emit('beforeadd');
+    this.emit('beforeadd', id);
 
     this.compareList.set(id, productData);
 
@@ -165,7 +161,7 @@ export default class ProductCompare extends EventEmitter {
 
     this._updateWidgetState();
 
-    this.emit('afteradd');
+    this.emit('afteradd', id);
   }
 
 
@@ -178,19 +174,19 @@ export default class ProductCompare extends EventEmitter {
    */
 
   _removeItem(id) {
-    this.emit('beforeremove');
+    this.emit('beforeremove', id);
 
     this.compareList.delete(id);
 
     // TODO change this to revealer
-    this.$compareItems.find(`[${this.compareRemove}=${id}]`).closest(`[${this.options.compare.item}]`).remove();
+    this.$compareItems.find(`[${this.compareRemove}=${id}]`).closest('[data-compare-item]').remove();
 
     // Uncheck the checkbox if removed via button
     $(`[data-compare-id="${id}"]`).prop('checked', false);
 
     this._updateWidgetState();
 
-    this.emit('afterremove');
+    this.emit('afterremove', id);
   }
 
 
@@ -203,7 +199,7 @@ export default class ProductCompare extends EventEmitter {
   removeAll() {
     this.compareList.clear();
 
-    this.$checkbox.prop('checked', false);
+    $(this.checkbox).prop('checked', false);
 
     // TODO revealer?
     this.$compareItems.html('');
@@ -221,8 +217,8 @@ export default class ProductCompare extends EventEmitter {
   _updateWidgetState() {
     const compareLength = this.compareList.size;
 
-    // Emit widget state events
-    compareLength < 1 ? this.emit('disabled') : this.emit('enabled');
+    // Toggle widget state class
+    $('[data-compare-widget]').toggleClass('is-enabled', !!compareLength);
 
     // Toggle compare link class
     this.$compareLink.toggleClass('is-disabled', (compareLength <= 1));

@@ -12,7 +12,7 @@ jspm install --save bc-compare=bitbucket:pixelunion/bc-compare
 
 ### Templates
 
-This module is made up of 2 template components. The compare checkbox and the compare widget.
+This module is made up of 2 template components. The compare checkbox and the compare widget. The templates rely on `data` attributes as hooks for the JS, so they need to be included, but the structure is completely up to you.
 
 #### Checkbox
 
@@ -32,14 +32,14 @@ Ideally the thumb that you are using will be the same size as the one that has a
 
 #### Widget
 
-Container that the compare items will be inject into.
+Container that the compare items will be injected into.
 
 ```
 <div data-compare-widget>
-  <h6 class="compare-title">{{lang 'compare.title' num=0}}</h6>
-  `<a href="{{urls.compare}}" data-compare-link="{{urls.compare}}">{{lang 'core.product.compare'}}</a>
+  <span class="compare-title">{{lang 'compare.title' num=0}}</span>
+  <a href="{{urls.compare}}" data-compare-link="{{urls.compare}}">{{lang 'core.product.compare'}}</a>
   <div data-compare-items>
-
+	<!-- Compare items injected here -->
   </div>
 </div>
 ```
@@ -68,39 +68,33 @@ _initCompare() {
     maxItems: 3,
   });
 
-  compare.on('beforeadd', () => {
+  compare.on('beforeadd', (id) => {
     console.log('compare before add');
   });
 
-  compare.on('afteradd', () => {
+  compare.on('afteradd', (id) => {
     console.log('compare after add');
-    const compareIds = [...compare.compareList.keys()];
-    const addedId = compareIds[compareIds.length - 1];
-    console.log(compare.compareList.get(addedId).title);
+    console.log(`${compare.compareList.get(id).title} added to compare`);
   });
 
-  compare.on('beforeremove', () => {
+  compare.on('beforeremove', (id) => {
     console.log('compare before remove');
   });
 
-  compare.on('afterremove', () => {
+  compare.on('afterremove', (id) => {
     console.log('compare after remove');
-  });
-
-  compare.on('enabled', () => {
-    console.log('compare enabled');
-    $('[data-compare-widget]').show();
-  }, true);
-
-  compare.on('disabled', () => {
-    console.log('compare disabled');
-    $('[data-compare-widget]').hide();
   });
 
   compare.on('updated', () => {
     console.log('compare updated');
     const compareMessage = this.context.compareTitle.replace('*num*', compare.compareList.size);
     $('.compare-title').text(compareMessage);
+
+    if (compare.compareList.size > 0) {
+      $('[data-compare-widget]').show();
+    } else {
+      $('[data-compare-widget]').hide();
+    }
   }, true);
 
   $('.compare-remove-all').on('click', () => {
@@ -116,20 +110,6 @@ Most of the options are selectors that you likely won't need to change if you st
 
 ```
 scope: '[data-product-compare]',`
-checkbox: '[data-compare-checkbox]',
-product: {
-  id: 'compare-id',
-  title: 'compare-title',
-  url: 'compare-url',
-  thumbnail: 'compare-thumbnail',
-},
-compare: {
-  widget: '[data-compare-widget]',
-  items: '[data-compare-items]',
-  item: 'data-compare-item',
-  remove: 'data-compare-item-remove',
-  link: '[data-compare-link]',
-},
 maxItems: 4,
 itemTemplate: _.template(`
   <div data-compare-item>
@@ -146,6 +126,7 @@ itemTemplate: _.template(`
 ## Events
 
 See the _JavaScript_ section above for a list of events that are available.
+Note that all the add/remove events have the `id` available as an argument in the callback.
 
 ## Methods
 
