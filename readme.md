@@ -121,12 +121,13 @@ default:
 
 ```
 _.template(`
-  <div data-compare-item>
+  <div class="compare-item" data-compare-item>
     <a href="<%= url %>">
-      <img src="<%= thumbnail %>"/>
-      <div><%= title %></div>
+      <img class="compare-item-thumbnail" src="<%= thumbnail %>"/>
+      <div class="compare-item-price"><%= price %></div>
+      <div class="compare-item-title"><%= title %></div>
     </a>
-    <button data-compare-item-remove="<%= id %>">X</button>
+    <button class="compare-item-remove" data-compare-item-remove="<%= id %>">&times;</button>
   </div>
 `)
 ```

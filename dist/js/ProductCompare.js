@@ -19,6 +19,7 @@ export default class ProductCompare extends EventEmitter {
         <div class="compare-item" data-compare-item>
           <a href="<%= url %>">
             <img class="compare-item-thumbnail" src="<%= thumbnail %>"/>
+            <div class="compare-item-price"><%= price %></div>
             <div class="compare-item-title"><%= title %></div>
           </a>
           <button class="compare-item-remove" data-compare-item-remove="<%= id %>">&times;</button>
@@ -31,6 +32,7 @@ export default class ProductCompare extends EventEmitter {
     this.$compareLink = $('[data-compare-link]');
 
     this.checkbox = '[data-compare-checkbox]';
+    this.compareItem = '[data-compare-item]';
     this.compareRemove = 'data-compare-item-remove';
 
     this._init();
@@ -47,10 +49,8 @@ export default class ProductCompare extends EventEmitter {
   _init() {
     if (sessionStorage.getItem('compare')) {
       this.compareList = new Map(JSON.parse(sessionStorage.getItem('compare')));
-      this.initialState = true;
       this._initWidget();
     } else {
-      this.initialState = false;
       this.compareList = new Map();
     }
   }
@@ -68,10 +68,10 @@ export default class ProductCompare extends EventEmitter {
     });
 
     $('body').on('click', `[${this.compareRemove}]`, (event) => {
-      event.preventDefault();
-
       const id = parseInt($(event.target).attr(this.compareRemove), 10);
       this._removeItem(id);
+
+      return false;
     });
   }
 
@@ -102,8 +102,9 @@ export default class ProductCompare extends EventEmitter {
    */
 
   _populateWidget(id) {
-    // TODO change this to revealer
-    this.$compareItems.append(this.options.itemTemplate(this.compareList.get(id)));
+    $(this.options.itemTemplate(this.compareList.get(id)))
+      .appendTo(this.$compareItems)
+      .revealer('show');
   }
 
 
@@ -122,6 +123,7 @@ export default class ProductCompare extends EventEmitter {
       id: id,
       title: $checkbox.data('compare-title'),
       url: $checkbox.data('compare-url'),
+      price: $checkbox.data('compare-price'),
       thumbnail: $checkbox.data('compare-thumbnail'),
     };
 
@@ -178,8 +180,14 @@ export default class ProductCompare extends EventEmitter {
 
     this.compareList.delete(id);
 
-    // TODO change this to revealer
-    this.$compareItems.find(`[${this.compareRemove}=${id}]`).closest('[data-compare-item]').remove();
+    this.$compareItems
+      .find(`[${this.compareRemove}=${id}]`)
+      .closest(this.compareItem)
+      .revealer('hide');
+
+    $(this.compareItem).on('revealer-hide', (event) => {
+      $(event.currentTarget).remove();
+    });
 
     // Uncheck the checkbox if removed via button
     $(`[data-compare-id="${id}"]`).prop('checked', false);
@@ -197,14 +205,9 @@ export default class ProductCompare extends EventEmitter {
    */
 
   removeAll() {
-    this.compareList.clear();
-
-    $(this.checkbox).prop('checked', false);
-
-    // TODO revealer?
-    this.$compareItems.html('');
-
-    this._updateWidgetState();
+    for (const id of this.compareList.keys()) {
+      this._removeItem(id);
+    }
   }
 
 
