@@ -106,12 +106,21 @@ _initCompare() {
 
 
 ## Options & Defaults
-Most of the options are selectors that you likely won't need to change if you structure your html as above. You can also set the `maxItems` option, which will remove the oldest compare item from the list, when it's value is exceeded. You can also use a custom lodash `itemTemplate` with the properties of `url, thumbnail, title, id` being available.
+##### `scope`
+default: `'[data-product-compare]'`
+
+The container of the product list items - should be set to wrap the faceted search / dynamic content area. 
+
+##### `maxItems`
+default: `4`
+
+You can set the `maxItems`, which will remove the oldest compare item from the list, when it's value is exceeded.
+
+##### `itemTemplate`
+default:
 
 ```
-scope: '[data-product-compare]',`
-maxItems: 4,
-itemTemplate: _.template(`
+_.template(`
   <div data-compare-item>
     <a href="<%= url %>">
       <img src="<%= thumbnail %>"/>
@@ -119,8 +128,9 @@ itemTemplate: _.template(`
     </a>
     <button data-compare-item-remove="<%= id %>">X</button>
   </div>
-`),
+`)
 ```
+Custom lodash `itemTemplate`. The properties of `url, thumbnail, title, id` are available.
 
 
 ## Events
