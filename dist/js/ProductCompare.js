@@ -84,12 +84,24 @@ export default class ProductCompare extends EventEmitter {
 
   _initWidget() {
     for (const id of this.compareList.keys()) {
-      $(`[data-compare-id="${id}"]`).prop('checked', true);
+      this._checkCheckbox(id);
 
       this._populateWidget(id);
 
       this._updateWidgetState();
     }
+  }
+
+
+  /**
+   *
+   * Updates a checkbox state to "checked"
+   *
+   * @param {id} number The ID of the item / checkbox to target
+   *
+   */
+  _checkCheckbox(id) {
+    $(`[data-compare-id="${id}"]`).prop('checked', true);
   }
 
 
@@ -207,6 +219,20 @@ export default class ProductCompare extends EventEmitter {
   removeAll() {
     for (const id of this.compareList.keys()) {
       this._removeItem(id);
+    }
+  }
+
+
+  /**
+   *
+   * Sets each checkbox in the compare list to "checked". 
+   * Useful if products are loaded dynamically and the widget is already initialized.
+   *
+   */
+
+  updateCheckboxes() {
+    for (const id of this.compareList.keys()) {
+      this._checkCheckbox(id);
     }
   }
 
