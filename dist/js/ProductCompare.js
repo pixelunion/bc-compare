@@ -1,5 +1,6 @@
 /**
  * Product Comparison Widget
+ * v1.0.0
  */
 
 import $ from 'jquery';

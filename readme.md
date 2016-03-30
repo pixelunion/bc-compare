@@ -131,7 +131,7 @@ _.template(`
   </div>
 `)
 ```
-Custom lodash `itemTemplate`. The properties of `url, thumbnail, title, id` are available.
+Custom lodash `itemTemplate`. The properties of `url, thumbnail, title, id, price` are available.
 
 
 ## Events
@@ -139,13 +139,20 @@ Custom lodash `itemTemplate`. The properties of `url, thumbnail, title, id` are 
 See the _JavaScript_ section above for a list of events that are available.
 Note that all the add/remove events have the `id` available as an argument in the callback.
 
+## Classes
+* The compare widget has the `is-enabled` class added to it when there are items in the compare list. 
+* The compare link has the `is-disabled` class added to it when there are less than 2 items in the compare list. 
+
 ## Methods
 
 ##### `on`
 This is an extension of EventEmitter's `on` method. The only difference is that it accepts a third parameter, which allows the event to be fired immediately after binding it. This is primarily useful with the `enabled` and `updated` events so that the state of the widget is correct when loaded from `sessionStorage`.
 
 ##### `removeAll`
-Removes all items from the compare list. 
+Removes all items from the compare list.
+
+##### `updateCheckboxes`
+Updates any checkboxes on the page to the correct "checked" state. Useful if products are loaded dynamically and the widget is already initialized.
 
 ## Further Development
 
