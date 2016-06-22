@@ -109,7 +109,12 @@ _initCompare() {
 ##### `scope`
 default: `'[data-product-compare]'`
 
-The container of the product list items - should be set to wrap the faceted search / dynamic content area. 
+**Important: the scope selector must be added into your markup for the module to function**
+
+The container of the product list items - should be set to wrap the faceted search / dynamic content area.
+
+For example: 
+`<section class="product-list" data-facet-content {{#if category.show_compare}}data-product-compare{{/if}}>`
 
 ##### `maxItems`
 default: `4`
