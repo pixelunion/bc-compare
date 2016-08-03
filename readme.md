@@ -25,6 +25,7 @@ Add a checkbox to your product grid items with the appropriate `data` attributes
   data-compare-id="{{id}}"
   data-compare-title="{{name}}"
   data-compare-url="{{url}}"
+  data-compare-price="{{price}}"
   data-compare-thumbnail="{{getImage image 'thumb' (cdn default_image)}}">
 ```
 Ideally the thumb that you are using will be the same size as the one that has already been loaded into the page.
@@ -161,5 +162,27 @@ Updates any checkboxes on the page to the correct "checked" state. Useful if pro
 
 ## Further Development
 
-Not sure what the best approach is here, since the module needs BC data.
+The original src of the module is still JSPM, but the demo is built on webpack
+
+Install:
+
+```
+npm install
+
+jspm install 
+```
+
+Build out compiled script (for use with webpack - /dist/js/ProductCompare.js) :
+
+```
+gulp bundle
+```
+
+Demo:
+
+```
+webpack --watch
+
+npm run serve
+```
  

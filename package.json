@@ -1,16 +1,17 @@
 {
   "name": "bc-compare",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "description": "Bigcommerce Product Compare Module",
   "license": "MIT",
   "main": "dist/js/ProductCompare",
   "jspm": {
-    "main": "js/ProductCompare",
+    "main": "ProductCompare",
     "directories": {
-      "lib": "dist"
+      "lib": "src"
     },
     "dependencies": {
+      "eventemitter2": "github:asyncly/EventEmitter2@^0.4.14",
       "jquery": "github:components/jquery@^2.1.4",
       "jquery-revealer": "github:pixelunion/jquery.revealer@^2.0.0",
       "jquery-trend": "npm:jquery-trend@^0.1.0",
@@ -23,6 +24,26 @@
     }
   },
   "devDependencies": {
-    "jspm": "^0.16.31"
+    "babel-core": "^6.11.4",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "finalhandler": "^0.5.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "jspm": "^0.16.31",
+    "nodemon": "^1.10.0",
+    "serve-static": "^1.11.1",
+    "webpack": "^1.13.1"
+  },
+  "scripts": {
+    "serve": "nodemon server.js",
+    "build": "gulp bundle"
+  },
+  "dependencies": {
+    "eventemitter2": "git+https://github.com/asyncly/EventEmitter2.git",
+    "jquery": "^3.1.0",
+    "jquery-revealer": "git+ssh://git@github.com/pixelunion/jquery.revealer.git",
+    "jquery-trend": "^0.1.0",
+    "lodash": "^4.14.1"
   }
 }

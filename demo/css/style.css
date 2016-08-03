@@ -1,0 +1,31 @@
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: 400px;
+}
+
+.product {
+  width: 50%;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.compare-widget {
+  position: fixed;
+  bottom: 0;
+  right: 20px;
+  padding: 20px;
+  max-width: 300px;
+  background-color: #ddd;
+}
+
+.compare-items {
+  display: flex;
+}
+
+.compare-item {
+  margin: 5px;
+}
