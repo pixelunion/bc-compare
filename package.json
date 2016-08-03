@@ -4,6 +4,7 @@
   "private": true,
   "description": "Bigcommerce Product Compare Module",
   "license": "MIT",
+  "main": "dist/js/ProductCompare",
   "jspm": {
     "main": "js/ProductCompare",
     "directories": {
