@@ -30,6 +30,9 @@ Add a checkbox to your product grid items with the appropriate `data` attributes
 ```
 Ideally the thumb that you are using will be the same size as the one that has already been loaded into the page.
 
+#### Scope
+
+Scope / container of items to compare: `[data-product-compare]`
 
 #### Widget
 
@@ -185,4 +188,3 @@ webpack --watch
 
 npm run serve
 ```
- 
