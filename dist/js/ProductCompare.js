@@ -16,9 +16,13 @@ var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
-require('jquery-trend');
+var _jqueryTrend = require('jquery-trend');
 
-require('jquery-revealer');
+var _jqueryTrend2 = _interopRequireDefault(_jqueryTrend);
+
+var _jqueryRevealer = require('jquery-revealer');
+
+var _jqueryRevealer2 = _interopRequireDefault(_jqueryRevealer);
 
 var _eventemitter = require('eventemitter2');
 
@@ -34,7 +38,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Product Comparison Widget
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * v1.0.0
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var ProductCompare = function (_EventEmitter) {

@@ -4,8 +4,8 @@
 
 import $ from 'jquery';
 import _ from 'lodash';
-import 'jquery-trend';
-import 'jquery-revealer';
+import trend from 'jquery-trend';
+import revealer from 'jquery-revealer';
 import EventEmitter from 'eventemitter2';
 
 export default class ProductCompare extends EventEmitter {

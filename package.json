@@ -1,28 +1,10 @@
 {
   "name": "bc-compare",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "description": "Bigcommerce Product Compare Module",
   "license": "MIT",
   "main": "dist/js/ProductCompare",
-  "jspm": {
-    "main": "ProductCompare",
-    "directories": {
-      "lib": "src"
-    },
-    "dependencies": {
-      "eventemitter2": "github:asyncly/EventEmitter2@^0.4.14",
-      "jquery": "github:components/jquery@^2.1.4",
-      "jquery-revealer": "github:pixelunion/jquery.revealer@^2.0.0",
-      "jquery-trend": "npm:jquery-trend@^0.1.0",
-      "lodash": "npm:lodash@^3.10.0"
-    },
-    "devDependencies": {
-      "babel": "npm:babel-core@4.7.16",
-      "babel-runtime": "npm:babel-runtime@4.7.16",
-      "core-js": "npm:core-js@^0.8.4"
-    }
-  },
   "devDependencies": {
     "babel-core": "^6.11.4",
     "babel-loader": "^6.2.4",
@@ -30,7 +12,6 @@
     "finalhandler": "^0.5.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
-    "jspm": "^0.16.31",
     "nodemon": "^1.10.0",
     "serve-static": "^1.11.1",
     "webpack": "^1.13.1"
