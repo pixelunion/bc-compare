@@ -5,7 +5,7 @@ Session-based product compare widget
 ## Installation
 
 ```
-jspm install --save bc-compare=bitbucket:pixelunion/bc-compare
+npm i --save bitbucket:pixelunion/bc-compare
 ```
 
 ## Usage
