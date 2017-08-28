@@ -23,7 +23,7 @@
   "dependencies": {
     "eventemitter2": "git+https://github.com/asyncly/EventEmitter2.git",
     "jquery": "^3.1.0",
-    "jquery-revealer": "git+ssh://git@github.com/pixelunion/jquery.revealer.git",
+    "jquery-revealer": "pixelunion/jquery.revealer",
     "jquery-trend": "^0.1.0",
     "lodash": "^4.14.1"
   }
