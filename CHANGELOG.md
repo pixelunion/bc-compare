@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### [unreleased] - unreleased
+## Changed
+- Update jQuery to avoid security risks
+
 ### [1.2.0] - 2017-01-07
 ## Changed
 - switched from jspm to npm
