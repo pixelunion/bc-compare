@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "eventemitter2": "git+https://github.com/asyncly/EventEmitter2.git",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jquery-revealer": "github:pixelunion/jquery.revealer",
     "jquery-trend": "github:pixelunion/jquery.trend",
     "lodash": "^4.14.1"
