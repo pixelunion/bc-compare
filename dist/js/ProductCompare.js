@@ -12,7 +12,7 @@ var _jquery = require('jquery');
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _lodash = require('lodash');
+var _lodash = require('lodash.template');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -53,7 +53,7 @@ var ProductCompare = function (_EventEmitter) {
     _this.options = _jquery2.default.extend({
       scope: '[data-product-compare]',
       maxItems: 4,
-      itemTemplate: _lodash2.default.template('\n        <div class="compare-item" data-compare-item>\n          <a href="<%= url %>">\n            <img class="compare-item-thumbnail" src="<%= thumbnail %>"/>\n            <div class="compare-item-price"><%= price %></div>\n            <div class="compare-item-title"><%= title %></div>\n          </a>\n          <button class="compare-item-remove" data-compare-item-remove="<%= id %>">&times;</button>\n        </div>\n      ')
+      itemTemplate: (0, _lodash2.default)('\n        <div class="compare-item" data-compare-item>\n          <a href="<%= url %>">\n            <img class="compare-item-thumbnail" src="<%= thumbnail %>"/>\n            <div class="compare-item-price"><%= price %></div>\n            <div class="compare-item-title"><%= title %></div>\n          </a>\n          <button class="compare-item-remove" data-compare-item-remove="<%= id %>">&times;</button>\n        </div>\n      ')
     }, options);
 
     _this.$scope = (0, _jquery2.default)(_this.options.scope);
@@ -173,6 +173,7 @@ var ProductCompare = function (_EventEmitter) {
   }, {
     key: '_populateWidget',
     value: function _populateWidget(id) {
+      console.log(this.compareList.get(id));
       (0, _jquery2.default)(this.options.itemTemplate(this.compareList.get(id))).appendTo(this.$compareItems).revealer('show');
     }
 
@@ -303,7 +304,7 @@ var ProductCompare = function (_EventEmitter) {
 
     /**
      *
-     * Sets each checkbox in the compare list to "checked". 
+     * Sets each checkbox in the compare list to "checked".
      * Useful if products are loaded dynamically and the widget is already initialized.
      *
      */

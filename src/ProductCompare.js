@@ -3,7 +3,7 @@
  */
 
 import $ from 'jquery';
-import _ from 'lodash';
+import template from 'lodash.template';
 import trend from 'jquery-trend';
 import revealer from 'jquery-revealer';
 import EventEmitter from 'eventemitter2';
@@ -12,10 +12,11 @@ export default class ProductCompare extends EventEmitter {
   constructor(options = {}) {
     super();
 
-    this.options = $.extend({
-      scope: '[data-product-compare]',
-      maxItems: 4,
-      itemTemplate: _.template(`
+    this.options = $.extend(
+      {
+        scope: '[data-product-compare]',
+        maxItems: 4,
+        itemTemplate: template(`
         <div class="compare-item" data-compare-item>
           <a href="<%= url %>">
             <img class="compare-item-thumbnail" src="<%= thumbnail %>"/>
@@ -25,7 +26,9 @@ export default class ProductCompare extends EventEmitter {
           <button class="compare-item-remove" data-compare-item-remove="<%= id %>">&times;</button>
         </div>
       `),
-    }, options);
+      },
+      options
+    );
 
     this.$scope = $(this.options.scope);
     this.$compareItems = $('[data-compare-items]');
@@ -38,7 +41,6 @@ export default class ProductCompare extends EventEmitter {
     this._init();
     this._bindEvents();
   }
-
 
   /**
    *
@@ -54,7 +56,6 @@ export default class ProductCompare extends EventEmitter {
       this.compareList = new Map();
     }
   }
-
 
   /**
    *
@@ -75,7 +76,6 @@ export default class ProductCompare extends EventEmitter {
     });
   }
 
-
   /**
    *
    * Sets the inital state of widget if loading from sessionStorage
@@ -92,7 +92,6 @@ export default class ProductCompare extends EventEmitter {
     }
   }
 
-
   /**
    *
    * Updates a checkbox state to "checked"
@@ -104,7 +103,6 @@ export default class ProductCompare extends EventEmitter {
     $(`[data-compare-id="${id}"]`).prop('checked', true);
   }
 
-
   /**
    *
    * Adds an item to the widget
@@ -114,11 +112,11 @@ export default class ProductCompare extends EventEmitter {
    */
 
   _populateWidget(id) {
+    console.log(this.compareList.get(id));
     $(this.options.itemTemplate(this.compareList.get(id)))
       .appendTo(this.$compareItems)
       .revealer('show');
   }
-
 
   /**
    *
@@ -156,7 +154,6 @@ export default class ProductCompare extends EventEmitter {
     }
   }
 
-
   /**
    *
    * Adds an item to the compare list
@@ -177,7 +174,6 @@ export default class ProductCompare extends EventEmitter {
 
     this.emit('afteradd', id);
   }
-
 
   /**
    *
@@ -209,7 +205,6 @@ export default class ProductCompare extends EventEmitter {
     this.emit('afterremove', id);
   }
 
-
   /**
    *
    * Public method to clear the list and widget items
@@ -222,10 +217,9 @@ export default class ProductCompare extends EventEmitter {
     }
   }
 
-
   /**
    *
-   * Sets each checkbox in the compare list to "checked". 
+   * Sets each checkbox in the compare list to "checked".
    * Useful if products are loaded dynamically and the widget is already initialized.
    *
    */
@@ -235,7 +229,6 @@ export default class ProductCompare extends EventEmitter {
       this._checkCheckbox(id);
     }
   }
-
 
   /**
    *
@@ -250,17 +243,21 @@ export default class ProductCompare extends EventEmitter {
     $('[data-compare-widget]').toggleClass('is-enabled', !!compareLength);
 
     // Toggle compare link class
-    this.$compareLink.toggleClass('is-disabled', (compareLength <= 1));
+    this.$compareLink.toggleClass('is-disabled', compareLength <= 1);
 
     // Set compare link href
-    this.$compareLink.attr('href', `${this.$compareLink.data('compare-link')}/${[...this.compareList.keys()].join('/')}`);
+    this.$compareLink.attr(
+      'href',
+      `${this.$compareLink.data('compare-link')}/${[
+        ...this.compareList.keys(),
+      ].join('/')}`
+    );
 
     // Save the compare data for later
     sessionStorage.setItem('compare', JSON.stringify([...this.compareList]));
 
     this.emit('updated');
   }
-
 
   /**
    *
