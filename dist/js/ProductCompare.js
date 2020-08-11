@@ -173,7 +173,6 @@ var ProductCompare = function (_EventEmitter) {
   }, {
     key: '_populateWidget',
     value: function _populateWidget(id) {
-      console.log(this.compareList.get(id));
       (0, _jquery2.default)(this.options.itemTemplate(this.compareList.get(id))).appendTo(this.$compareItems).revealer('show');
     }
 

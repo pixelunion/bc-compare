@@ -112,7 +112,6 @@ export default class ProductCompare extends EventEmitter {
    */
 
   _populateWidget(id) {
-    console.log(this.compareList.get(id));
     $(this.options.itemTemplate(this.compareList.get(id)))
       .appendTo(this.$compareItems)
       .revealer('show');
