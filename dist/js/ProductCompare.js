@@ -44,11 +44,11 @@ var ProductCompare = function (_EventEmitter) {
   _inherits(ProductCompare, _EventEmitter);
 
   function ProductCompare() {
-    var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
     _classCallCheck(this, ProductCompare);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ProductCompare).call(this));
+    var _this = _possibleConstructorReturn(this, (ProductCompare.__proto__ || Object.getPrototypeOf(ProductCompare)).call(this));
 
     _this.options = _jquery2.default.extend({
       scope: '[data-product-compare]',
@@ -372,9 +372,9 @@ var ProductCompare = function (_EventEmitter) {
   }, {
     key: 'on',
     value: function on(eventName, handler) {
-      var fireOnBind = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+      var fireOnBind = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
-      _get(Object.getPrototypeOf(ProductCompare.prototype), 'on', this).call(this, eventName, handler);
+      _get(ProductCompare.prototype.__proto__ || Object.getPrototypeOf(ProductCompare.prototype), 'on', this).call(this, eventName, handler);
       if (fireOnBind) {
         this.emit(eventName);
       }
