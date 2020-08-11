@@ -12,7 +12,7 @@ var _jquery = require('jquery');
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _lodash = require('lodash');
+var _lodash = require('lodash.template');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -44,16 +44,16 @@ var ProductCompare = function (_EventEmitter) {
   _inherits(ProductCompare, _EventEmitter);
 
   function ProductCompare() {
-    var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
     _classCallCheck(this, ProductCompare);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ProductCompare).call(this));
+    var _this = _possibleConstructorReturn(this, (ProductCompare.__proto__ || Object.getPrototypeOf(ProductCompare)).call(this));
 
     _this.options = _jquery2.default.extend({
       scope: '[data-product-compare]',
       maxItems: 4,
-      itemTemplate: _lodash2.default.template('\n        <div class="compare-item" data-compare-item>\n          <a href="<%= url %>">\n            <img class="compare-item-thumbnail" src="<%= thumbnail %>"/>\n            <div class="compare-item-price"><%= price %></div>\n            <div class="compare-item-title"><%= title %></div>\n          </a>\n          <button class="compare-item-remove" data-compare-item-remove="<%= id %>">&times;</button>\n        </div>\n      ')
+      itemTemplate: (0, _lodash2.default)('\n        <div class="compare-item" data-compare-item>\n          <a href="<%= url %>">\n            <img class="compare-item-thumbnail" src="<%= thumbnail %>"/>\n            <div class="compare-item-price"><%= price %></div>\n            <div class="compare-item-title"><%= title %></div>\n          </a>\n          <button class="compare-item-remove" data-compare-item-remove="<%= id %>">&times;</button>\n        </div>\n      ')
     }, options);
 
     _this.$scope = (0, _jquery2.default)(_this.options.scope);
@@ -303,7 +303,7 @@ var ProductCompare = function (_EventEmitter) {
 
     /**
      *
-     * Sets each checkbox in the compare list to "checked". 
+     * Sets each checkbox in the compare list to "checked".
      * Useful if products are loaded dynamically and the widget is already initialized.
      *
      */
@@ -372,9 +372,9 @@ var ProductCompare = function (_EventEmitter) {
   }, {
     key: 'on',
     value: function on(eventName, handler) {
-      var fireOnBind = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+      var fireOnBind = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
-      _get(Object.getPrototypeOf(ProductCompare.prototype), 'on', this).call(this, eventName, handler);
+      _get(ProductCompare.prototype.__proto__ || Object.getPrototypeOf(ProductCompare.prototype), 'on', this).call(this, eventName, handler);
       if (fireOnBind) {
         this.emit(eventName);
       }

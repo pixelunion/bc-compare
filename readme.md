@@ -28,6 +28,7 @@ Add a checkbox to your product grid items with the appropriate `data` attributes
   data-compare-price="{{price}}"
   data-compare-thumbnail="{{getImage image 'thumb' (cdn default_image)}}">
 ```
+
 Ideally the thumb that you are using will be the same size as the one that has already been loaded into the page.
 
 #### Scope
@@ -48,7 +49,7 @@ Container that the compare items will be injected into.
 </div>
 ```
 
-### JavaScript 
+### JavaScript
 
 Import the compare class in your theme JS (Category / ProductListing or Global).
 
@@ -66,7 +67,7 @@ loaded(next) {
 
   next();
 }
- 
+
 _initCompare() {
   const compare = new ProductCompare({
     maxItems: 3,
@@ -108,24 +109,27 @@ _initCompare() {
 
 ```
 
-
 ## Options & Defaults
+
 ##### `scope`
+
 default: `'[data-product-compare]'`
 
 **Important: the scope selector must be added into your markup for the module to function**
 
 The container of the product list items - should be set to wrap the faceted search / dynamic content area.
 
-For example: 
+For example:
 `<section class="product-list" data-facet-content {{#if category.show_compare}}data-product-compare{{/if}}>`
 
 ##### `maxItems`
+
 default: `4`
 
 You can set the `maxItems`, which will remove the oldest compare item from the list, when it's value is exceeded.
 
 ##### `itemTemplate`
+
 default:
 
 ```
@@ -140,8 +144,8 @@ _.template(`
   </div>
 `)
 ```
-Custom lodash `itemTemplate`. The properties of `url, thumbnail, title, id, price` are available.
 
+Custom lodash `itemTemplate`. The properties of `url, thumbnail, title, id, price` are available.
 
 ## Events
 
@@ -149,30 +153,31 @@ See the _JavaScript_ section above for a list of events that are available.
 Note that all the add/remove events have the `id` available as an argument in the callback.
 
 ## Classes
-* The compare widget has the `is-enabled` class added to it when there are items in the compare list. 
-* The compare link has the `is-disabled` class added to it when there are less than 2 items in the compare list. 
+
+- The compare widget has the `is-enabled` class added to it when there are items in the compare list.
+- The compare link has the `is-disabled` class added to it when there are less than 2 items in the compare list.
 
 ## Methods
 
 ##### `on`
+
 This is an extension of EventEmitter's `on` method. The only difference is that it accepts a third parameter, which allows the event to be fired immediately after binding it. This is primarily useful with the `enabled` and `updated` events so that the state of the widget is correct when loaded from `sessionStorage`.
 
 ##### `removeAll`
+
 Removes all items from the compare list.
 
 ##### `updateCheckboxes`
+
 Updates any checkboxes on the page to the correct "checked" state. Useful if products are loaded dynamically and the widget is already initialized.
 
 ## Further Development
-
-The original src of the module is still JSPM, but the demo is built on webpack
 
 Install:
 
 ```
 npm install
 
-jspm install 
 ```
 
 Build out compiled script (for use with webpack - /dist/js/ProductCompare.js) :

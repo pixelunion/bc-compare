@@ -1,10 +1,9 @@
 import $ from 'jquery';
 import ProductCompare from '../../dist/js/ProductCompare';
 
-$(function() {
-  
+$(function () {
   for (let i = 6; i > 0; i--) {
-    const product = _.template(`
+    const product = template(`
       <article class="product">
         <img src="./demo/img/<%- value %>.jpg" />
         <h1>Product <%- value %></h1>
@@ -48,19 +47,22 @@ $(function() {
     console.log('compare after remove');
   });
 
-  compare.on('updated', () => {
-    console.log('compare updated');
-    $('.compare-title .num-items').text(compare.compareList.size);
+  compare.on(
+    'updated',
+    () => {
+      console.log('compare updated');
+      $('.compare-title .num-items').text(compare.compareList.size);
 
-    if (compare.compareList.size > 0) {
-      $('[data-compare-widget]').show();
-    } else {
-      $('[data-compare-widget]').hide();
-    }
-  }, true);
+      if (compare.compareList.size > 0) {
+        $('[data-compare-widget]').show();
+      } else {
+        $('[data-compare-widget]').hide();
+      }
+    },
+    true
+  );
 
   $('.compare-remove-all').on('click', () => {
     compare.removeAll();
   });
-
 });
